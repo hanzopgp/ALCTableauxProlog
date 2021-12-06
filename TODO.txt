@@ -1,0 +1,52 @@
+---------- PARTIE I ----------
+
+* La partie I est donnée.
+
+---------- PARTIE II ----------
+
+* On a deux type de chose a prouver:
+		- I : C        
+				--> Remplacer les identificateurs
+				--> Mettre sous forme FNN
+				--> Ajouter (I : ¬C) à la Abox
+		- C1 ⊓ C2 ⊑ ⊥
+				--> Remplacer les identificateurs
+				--> Mettre sous forme FNN 
+				--> Ajouter (∃ inst, inst : C1 ⊓ C2) à la Abox
+
+* Comment remplacer les identificateurs et mettre sous FNN ?
+		- Verification sémantique et syntaxique
+				--> Utiliser setof(Motif, But, Liste) pour sémantique
+				--> Transposition en analyseur syntaxique
+		- Mise sous FNN
+				--> Negations doivent porter que sur concept atomique
+				--> On définit en dur toutes les possibilites *1
+
+*1 :
+nnf(not(and(C1,C2))) ∷= or(nnf(not(C1)),nnf(not(C2))) (1)
+nnf(not(or(C1,C2))) ∷= and(nnf(not(C1)),nnf(not(C2))) (2)
+nnf(not(all(R,C)))= some(R,nnf(not(C))) (3)
+nnf(not(some(R,C)))=all(R,nnf(not(C))) (4)
+nnf(not(not(C))=C (5)
+nnf(not(C))=not(C), si C est un concept atomique (6)
+nnf(and(C1,C2))=and(nnf(C1),nnf(C2)) (7)
+nnf(or(C1,C2))=or(nnf(C1),nnf(C2)) (8)
+nnf(some(R,C))=some(R,nnf(C)) (9)
+nnf(all(R,C))=all(R,nnf(C)) (10)
+nnf(C)=C si C est un concept atomique (11)
+Avec nnf :
+nnf(not(and(C1,C2)),or(NC1,NC2)):- nnf(not(C1),NC1),
+nnf(not(C2),NC2),!.
+nnf(not(or(C1,C2)),and(NC1,NC2)):- nnf(not(C1),NC1),
+nnf(not(C2),NC2),!.
+nnf(not(all(R,C)),some(R,NC)) :- nnf(not(C),NC),!.
+nnf(not(some(R,C)),all(R,NC)):- nnf(not(C),NC),!.
+nnf(not(not(X)),X):-!.
+nnf(not(X),not(X)):-!.
+nnf(and(C1,C2),and(NC1,NC2)):- nnf(C1,NC1),nnf(C2,NC2),!.
+nnf(or(C1,C2),or(NC1,NC2)):- nnf(C1,NC1), nnf(C2,NC2),!.
+nnf(some(R,C),some(R,NC)):- nnf(C,NC),!.
+nnf(all(R,C),all(R,NC)) :- nnf(C,NC),!.
+nnf(X,X).
+
+---------- PARTIE III ----------
