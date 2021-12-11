@@ -195,44 +195,45 @@ tri_Abox([(I,or(C1,C2))|Abi],Lie,Lpt,Li,[(I,or(C1,C2))|Lu],Ls) :- tri_Abox(Abi,L
 tri_Abox([E|Abi],Lie,Lpt,Li,Lu,[E|Ls]) :- tri_Abox(Abi,Lie,Lpt,Li,Lu,Ls).
 
 
-checkclash([]).
-checkclash([E|Abr]):-member(no(E),Abr).
-checkclash([no(E)|Abr]):-member(E,Abr).
+checkclash([(I,C)|Ls]) :-
+  nnf(not(C),NC),
+  member((I,NC),Ls).
+checkclash([_|Ls]) :- checkclash(Ls).
 
 
 complete_some([(A,some(R,C))|Lie],Lpt,Li,Lu,Ls,Abr) :-
   genere(B),
-  evolue((B,C),Lpt,Li,Lu,Ls,Lpt1,Li1,Lu1,Ls1),
+  evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
   resolution(Lie1,Lpt1,Li1,Lu1,Ls1,[(A,B,R)|Abr]).
 complete_some([],Lpt,Li,Lu,Ls,Abr):-transformation_and([],Lpt,Li,Lu,Ls,Abr).
 
 
-transformation_and(Lie,Lpt,[(I,and(A,B))|Li],Lu,Ls,Abr):-evolue((A,I),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
--evolue((B,I)Lie1,Lpt1,Li1,Lu1,Ls1,Lie2,Lpt2,Li2,Lu2,Ls2),
--resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).
+transformation_and(Lie,Lpt,[(I,and(A,B))|Li],Lu,Ls,Abr):-evolue((I,A),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+evolue((I,B),Lie1,Lpt1,Li1,Lu1,Ls1,Lie2,Lpt2,Li2,Lu2,Ls2),
+resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).
 transformation_and(Lie,Lpt,[],Lu,Ls,Abr):-deduction_all(Lie,Lpt,[],Lu,Ls,Abr).
 
 
-deduction_all(Lie,[],Li,Lu,Ls,Abr):-transformation_or(Lie,Lpt,Li,[],Ls,Abr).
+deduction_all(Lie,[],Li,Lu,Ls,Abr):-transformation_or(Lie,[],Li,Lu,Ls,Abr).
 deduction_all(Lie,[(I,all(R,C))|Lpt],Li,Lu,Ls,Abr):-member((I,B,R),Abr),
--evolue((B,C)Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
 resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr).
 
 
-
-transformation_or(Lie,Lpt,Li,[ (I,or(C1,C2))|Lu],Ls,Abr):-resolution(Lie,Lpt,Li,Lu,[(B,I)|Ls],Abr),
-resolution(Lie,Lpt,Li,Lu,[(A,I)|Ls],Abr).
-transformation_or(_,_,_,[],_,_).
-
-
-resolution(Lie,Lpt,Li,Lu,Ls,Abr):-checkclash(Ls),
-complete_some(Lie,Lpt,Li,Lu,Ls,Abr).
+transformation_or(Lie,Lpt,Li,[(I,or(C,D))|Lu],Ls,Abr):- evolue((I,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+evolue((I,D),Lie,Lpt,Li,Lu,Ls,Lie2,Lpt2,Li2,Lu2,Ls2),
+resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr),
+resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).
 
 
 
+resolution(Lie,Lpt,Li,Lu,Ls,Abr):-checkclash(Ls).
+resolution(Lie,Lpt,Li,Lu,Ls,Abr):-complete_some(Lie,Lpt,Li,Lu,Ls,Abr).
 
-evolue((I,and(A,B)), Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, [(I,and(A,B))|Li], Lu1, Ls1).
-evolue((I,all(R,C)), Lie, Lpt, Li, Lu, Ls, Lie1, [(I,all(R,C))|Lpt], Li1, Lu1, Ls1).
-evolue((I,some(R,C)), Lie, Lpt, Li, Lu, Ls, [(I,some(R,C))|Lie], Lpt1, Li1, Lu1, Ls1).
-evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, [(I,or(C1,C2))|Lu], Ls1).
-evolue(Elem, Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, [(Elem)|Ls]).
+
+
+evolue((I,and(A,B)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, [(I,and(A,B))|Li], Lu, Ls).
+evolue((I,all(R,C)), Lie, Lpt, Li, Lu, Ls, Lie, [(I,all(R,C))|Lpt], Li, Lu, Ls).
+evolue((I,some(R,C)), Lie, Lpt, Li, Lu, Ls, [(I,some(R,C))|Lie], Lpt, Li, Lu, Ls).
+evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, [(I,or(C1,C2))|Lu], Ls).
+evolue(Elem, Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, [(Elem)|Ls]).
