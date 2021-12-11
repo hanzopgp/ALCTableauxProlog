@@ -347,8 +347,6 @@ diff_list(L1,L2,R) :-
   findall(E,(member(E,L1),not(member(E,L2))),R).
 
 trad_infix([]).
-trad_infix(I):-
-  write(I).
 trad_infix((I,not(A))):-
   write(I), 
   write(":no("),
@@ -358,7 +356,7 @@ trad_infix((I,and(A,B))):-
   write(I), 
   write(":("),
   trad_infix(A),
-  write("et"),
+  write(" et "),
   trad_infix(B),
   write(")").
 trad_infix((I,all(R,C))):-
@@ -375,10 +373,14 @@ trad_infix((I,some(R,C))):-
   write("."),
   trad_infix(C),
   write(")").
-trad_infix((I,or(C1,C2))):-
+trad_infix((I,or(A,B))):-
   write(I), 
   write(":("),
-  trad_infix(C1),
-  write("ou"),
-  trad_infix(C2),
+  trad_infix(A),
+  write(" ou "),
+  trad_infix(B),
+  write(")").
+trad_infix(I):-
+  write("(atome:"),
+  write(I),
   write(")").
