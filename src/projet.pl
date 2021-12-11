@@ -276,47 +276,16 @@ tri_Abox([(I,or(C1,C2))|Abi],Lie,Lpt,Li,[(I,or(C1,C2))|Lu],Ls) :-
 tri_Abox([E|Abi],Lie,Lpt,Li,Lu,[E|Ls]) :- 
   tri_Abox(Abi,Lie,Lpt,Li,Lu,Ls).
 
-checkclash([(I,C)|Ls]) :-
-  nnf(not(C),NC),
-  member((I,NC),Ls).
-checkclash([_|Ls]) :- checkclash(Ls).
-
-complete_some([],Lpt,Li,Lu,Ls,Abr):-
-  transformation_and([],Lpt,Li,Lu,Ls,Abr).
-complete_some([(A,some(R,C))|Lie],Lpt,Li,Lu,Ls,Abr) :-
-  genere(B),
-  evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
-  %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr,Ls2,Lie2,Lpt2,Li2,Lu2,[]),
-  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,[(A,B,R)|Abr]).
-
-transformation_and(Lie,Lpt,[],Lu,Ls,Abr):-
-  deduction_all(Lie,Lpt,[],Lu,Ls,Abr).
-transformation_and(Lie,Lpt,[(I,and(A,B))|Li],Lu,Ls,Abr):-
-  evolue((I,A),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
-  evolue((I,B),Lie1,Lpt1,Li1,Lu1,Ls1,Lie2,Lpt2,Li2,Lu2,Ls2),
-  %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr,Ls2,Lie2,Lpt2,Li2,Lu2,[]),
-  resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).
-
-deduction_all(Lie,[],Li,Lu,Ls,Abr):-
-  transformation_or(Lie,[],Li,Lu,Ls,Abr).
-deduction_all(Lie,[(I,all(R,C))|Lpt],Li,Lu,Ls,Abr):-
-  member((I,B,R),Abr),
-  evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
-  %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr,Ls2,Lie2,Lpt2,Li2,Lu2,[]),
-  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr).
-
-transformation_or(Lie,Lpt,Li,[(I,or(C,D))|Lu],Ls,Abr):- 
-  evolue((I,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
-  evolue((I,D),Lie,Lpt,Li,Lu,Ls,Lie2,Lpt2,Li2,Lu2,Ls2),
-  %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr,Ls2,Lie2,Lpt2,Li2,Lu2,[]),
-  print_diff(Ls2,Ls1),
-  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr),
-  resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).
-
 resolution(Lie,Lpt,Li,Lu,Ls,Abr):-
   checkclash(Ls).
 resolution(Lie,Lpt,Li,Lu,Ls,Abr):-
   complete_some(Lie,Lpt,Li,Lu,Ls,Abr).
+
+checkclash([(I,C)|Ls]) :-
+  nnf(not(C),NC),
+  member((I,NC),Ls).
+checkclash([_|Ls]) :- 
+  checkclash(Ls).
 
 evolue((I,and(A,B)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, [(I,and(A,B))|Li], Lu, Ls).
 evolue((I,all(R,C)), Lie, Lpt, Li, Lu, Ls, Lie, [(I,all(R,C))|Lpt], Li, Lu, Ls).
@@ -324,9 +293,103 @@ evolue((I,some(R,C)), Lie, Lpt, Li, Lu, Ls, [(I,some(R,C))|Lie], Lpt, Li, Lu, Ls
 evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, [(I,or(C1,C2))|Lu], Ls).
 evolue(Elem, Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, [(Elem)|Ls]).
 
+%% Predicats des differentes regles de resolution
+
+complete_some([],Lpt,Li,Lu,Ls,Abr):-
+  transformation_and([],Lpt,Li,Lu,Ls,Abr).
+complete_some([(A,some(R,C))|Lie],Lpt,Li,Lu,Ls,Abr) :-
+  genere(B),
+  evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+  affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls1,Lie1,Lpt1,Li1,Lu1,[]),
+  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,[(A,B,R)|Abr]).
+
+transformation_and(Lie,Lpt,[],Lu,Ls,Abr):-
+  deduction_all(Lie,Lpt,[],Lu,Ls,Abr).
+transformation_and(Lie,Lpt,[(I,and(A,B))|Li],Lu,Ls,Abr):-
+  evolue((I,A),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+  affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls1,Lie1,Lpt1,Li1,Lu1,[]),
+  evolue((I,B),Lie1,Lpt1,Li1,Lu1,Ls1,Lie2,Lpt2,Li2,Lu2,Ls2),
+  affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,[],Ls2,Lie2,Lpt2,Li2,Lu2,[]),
+  resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).
+
+deduction_all(Lie,[],Li,Lu,Ls,Abr):-
+  transformation_or(Lie,[],Li,Lu,Ls,Abr).
+deduction_all(Lie,[(I,all(R,C))|Lpt],Li,Lu,Ls,Abr):-
+  member((I,B,R),Abr),
+  evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+  affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls1,Lie1,Lpt1,Li1,Lu1,[]),
+  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr).
+
+transformation_or(Lie,Lpt,Li,[(I,or(C,D))|Lu],Ls,Abr):- 
+  evolue((I,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+  affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls1,Lie1,Lpt1,Li1,Lu1,[]),
+  evolue((I,D),Lie,Lpt,Li,Lu,Ls,Lie2,Lpt2,Li2,Lu2,Ls2),
+  affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,[],Ls2,Lie2,Lpt2,Li2,Lu2,[]),
+  print_diff(Ls2,Ls1),
+  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr),
+  resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).
+
+%% Partie affichage
+
 affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2):-
-  print_diff(Ls1,Ls2).
+  print_diff(Ls2,Ls1),
+  print_diff(Lie2,Lie1),
+  print_diff(Lpt2,Lpt1),
+  print_diff(Li2,Li1),
+  print_diff(Lu2,Lu1).
 
 print_diff(L1,L2):-
-  subtract(L1,L2,R),
-  nl, write(R).
+  diff_list(L1,L2,R),
+  trad_infix(R).
+
+diff_list(L1,L2,R) :- 
+  findall(E,(member(E,L1),not(member(E,L2))),R).
+
+trad_infix([]).
+trad_infix(I):-
+  nl, write(I).
+trad_infix([(I,not(A)|LR]):-
+  nl, write(I), write("¬("),
+  trad_infix(A),
+  write(")").
+trad_infix([(I,and(A,B)|LR]):-
+  nl, write(I), write("⊓("),
+  trad_infix(A),
+  trad_infix(B),
+  write(")").
+trad_infix([(I,all(R,C)|LR]):-
+  nl, write("xd1"), write("∀("),
+  trad_infix(R),
+  trad_infix(C),
+  write(")").
+trad_infix([(I,some(R,C)|LR]):-
+  nl, write("xd1"), write("∃("),
+  trad_infix(R),
+  trad_infix(C),
+  write(")").
+trad_infix([(I,or(C1,C2)|LR]):-
+  nl, write("xd1"), write("⊔("),
+  trad_infix(C1),
+  trad_infix(C2),
+  write(")").
+%% trad_infix([(I,and(A,B)|LR]):-
+%%   nl, write("xd2"),
+%%   trad_infix(A),
+%%   trad_infix(B),
+%%   trad_infix(LR).
+%% trad_infix([(I,all(R,C)|LR]):-
+%%   nl, write("xd2"),
+%%   trad_infix(R),
+%%   trad_infix(C),
+%%   trad_infix(LR).
+%% trad_infix([(I,some(R,C)|LR]):-
+%%   nl, write("xd2"),
+%%   trad_infix(R),
+%%   trad_infix(C),
+%%   trad_infix(LR).
+%% trad_infix([(I,or(C1,C2)|LR]):-
+%%   nl, write("xd2"),
+%%   trad_infix(C1),
+%%   trad_infix(C2),
+%%   trad_infix(LR).
+
