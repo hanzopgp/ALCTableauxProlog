@@ -339,57 +339,46 @@ affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2):-
   print_diff(Lu2,Lu1).
 
 print_diff(L1,L2):-
-  diff_list(L1,L2,R),
-  trad_infix(R).
+  diff_list(L1,L2,[E|R]),
+  nl,
+  trad_infix(E).
 
 diff_list(L1,L2,R) :- 
   findall(E,(member(E,L1),not(member(E,L2))),R).
 
 trad_infix([]).
 trad_infix(I):-
-  nl, write(I).
-trad_infix([(I,not(A)|LR]):-
-  nl, write(I), write("¬("),
+  write(I).
+trad_infix((I,not(A))):-
+  write(I), 
+  write(":no("),
   trad_infix(A),
   write(")").
-trad_infix([(I,and(A,B)|LR]):-
-  nl, write(I), write("⊓("),
+trad_infix((I,and(A,B))):-
+  write(I), 
+  write(":("),
   trad_infix(A),
+  write("et"),
   trad_infix(B),
   write(")").
-trad_infix([(I,all(R,C)|LR]):-
-  nl, write("xd1"), write("∀("),
+trad_infix((I,all(R,C))):-
+  write(I), 
+  write(":qq("),
   trad_infix(R),
+  write("."),
   trad_infix(C),
   write(")").
-trad_infix([(I,some(R,C)|LR]):-
-  nl, write("xd1"), write("∃("),
+trad_infix((I,some(R,C))):-
+  write(I), 
+  write(":ie("),
   trad_infix(R),
+  write("."),
   trad_infix(C),
   write(")").
-trad_infix([(I,or(C1,C2)|LR]):-
-  nl, write("xd1"), write("⊔("),
+trad_infix((I,or(C1,C2))):-
+  write(I), 
+  write(":("),
   trad_infix(C1),
+  write("ou"),
   trad_infix(C2),
   write(")").
-%% trad_infix([(I,and(A,B)|LR]):-
-%%   nl, write("xd2"),
-%%   trad_infix(A),
-%%   trad_infix(B),
-%%   trad_infix(LR).
-%% trad_infix([(I,all(R,C)|LR]):-
-%%   nl, write("xd2"),
-%%   trad_infix(R),
-%%   trad_infix(C),
-%%   trad_infix(LR).
-%% trad_infix([(I,some(R,C)|LR]):-
-%%   nl, write("xd2"),
-%%   trad_infix(R),
-%%   trad_infix(C),
-%%   trad_infix(LR).
-%% trad_infix([(I,or(C1,C2)|LR]):-
-%%   nl, write("xd2"),
-%%   trad_infix(C1),
-%%   trad_infix(C2),
-%%   trad_infix(LR).
-
