@@ -383,18 +383,20 @@ affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2):-
   print_diff(Lu2,Lu1).
 
 %% Trouve une difference dans les listes et appelle la traduction prefixe - infixe
+print_diff([],[]).
 print_diff(L1,L2):-
-  diff_list(L1,L2,[E|R]),
+  diff_list(L1,L2,R),
   nl,
-  trad_infix(E).
+  trad_infix(R).
 
 %% Retourne les elements differents entre deux listes
+diff_list([],[],[]).
 diff_list(L1,L2,R) :- 
   findall(E,(member(E,L1),not(member(E,L2))),R).
 
 %% Affiche la traduction infixe d'une entree prefixe
 trad_infix([]).
-trad_infix((I,not(A))):-
+trad_infix([(I,not(A))|LS]):-
   write(I), 
   write(":no("),
   trad_infix(A),
@@ -403,7 +405,7 @@ trad_infix(not(A)):-
   write("no("),
   trad_infix(A),
   write(")").
-trad_infix((I,and(A,B))):-
+trad_infix([(I,and(A,B))|LS]):-
   write(I), 
   write(":("),
   trad_infix(A),
@@ -416,7 +418,7 @@ trad_infix(and(A,B)):-
   write(" et "),
   trad_infix(B),
   write(")").
-trad_infix((I,all(R,C))):-
+trad_infix([(I,all(R,C))|LS]):-
   write(I), 
   write(":qq("),
   trad_infix(R),
@@ -429,7 +431,7 @@ trad_infix(all(R,C)):-
   write("."),
   trad_infix(C),
   write(")").
-trad_infix((I,some(R,C))):-
+trad_infix([(I,some(R,C))|LS]):-
   write(I), 
   write(":ie("),
   trad_infix(R),
@@ -442,7 +444,7 @@ trad_infix(some(R,C)):-
   write("."),
   trad_infix(C),
   write(")").
-trad_infix((I,or(A,B))):-
+trad_infix([(I,or(A,B))|LS]):-
   write(I), 
   write(":("),
   trad_infix(A),
