@@ -339,8 +339,10 @@ complete_some([],Lpt,Li,Lu,Ls,Abr):-
   transformation_and([],Lpt,Li,Lu,Ls,Abr).
 complete_some([(A,some(R,C))|Lie],Lpt,Li,Lu,Ls,Abr) :-
   genere(B),
+  Abr1 = Abr,
   evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
-  affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls1,Lie1,Lpt1,Li1,Lu1,[]),
+  Abr2 = [(A,B,R)|Abr],
+  affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,Abr1,Ls1,Lie1,Lpt1,Li1,Lu1,Abr2),
   resolution(Lie1,Lpt1,Li1,Lu1,Ls1,[(A,B,R)|Abr]).
 
 %% Regle et
@@ -376,10 +378,15 @@ transformation_or(Lie,Lpt,Li,[(I,or(C,D))|Lu],Ls,Abr):-
 
 %% Affiche l'evolution des qu'il y a eu une modification dans une des listes
 affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2):-
+  nl,write("Difference Ls"),
   print_diff(Ls2,Ls1),
+  nl,write("Difference Lie"),
   print_diff(Lie2,Lie1),
+  nl,write("Difference Lpt"),
   print_diff(Lpt2,Lpt1),
+  nl,write("Difference Li"),
   print_diff(Li2,Li1),
+  nl,write("Difference Lu"),
   print_diff(Lu2,Lu1).
 
 %% Trouve une difference dans les listes et appelle la traduction prefixe - infixe
