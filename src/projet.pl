@@ -489,3 +489,76 @@ trad_infix(or(A,B)):-
   write(")").
 trad_infix((I)):-
   write(I).
+
+%% =================== Partie test =================== %%
+
+testing :- 
+  write("Start testing"), nl,
+
+  premiere_etape(Tbox,Abi,Abr),
+  deuxieme_etape(Abi,Ab1,Tbox),
+  %% erreur.     MichelAnge. personne.   ==> Reponse incorrecte.
+  %% MichelAnge. MichelAnge. personne.   ==> Reponse incorrecte.
+  %% 1.          MichelAnge. personne.   ==> true.
+  %% 1.          MichelAnge. erreur.     ==> Reponse incorrecte.
+  %% 1.          erreur.     personne.   ==> Reponse incorrecte.
+  %% 1.          MichelAnge. objet.      ==> true.
+  %% 1.          objet.      MichelAnge. ==> true.
+  %% 2.          sculpture. objet.       ==> true.
+  %% 2.          MichelAnge. personne.   ==> Reponse incorrecte.
+
+  tri_Abox([(michelAnge, personne), (david,some(aCree,sculpture)), (david,all(aCree,sculpture)), (david,or(aCree,sculpture)), (david,and(aCree,sculpture))],Lie_1,Lpt_1,Li_1,Lu_1,Ls_1),
+  write(Lie_1), nl,
+  write(Lpt_1), nl,
+  write(Li_1), nl,
+  write(Lu_1), nl,
+  write(Ls_1), nl,
+  %% ==> [(david,some(aCree,sculpture))]
+  %% ==> [(david,all(aCree,sculpture))]
+  %% ==> [(david,and(aCree,sculpture))]
+  %% ==> [(david,or(aCree,sculpture))]
+  %% ==> [(michelAnge,personne)]
+ 
+  tri_Abox([(michelAnge, personne), (michelAnge, not(personne))],Lie_2,Lpt_2,Li_2,Lu_2,Ls_2),
+  resolution(Lie_2,Lpt_2,Li_2,Lu_2,Ls_2,Abr),
+  %% ==> !!!!!!!! Clash sur michelAnge !!!!!!!!
+  tri_Abox([(michelAnge, personne)],Lie_3,Lpt_3,Li_3,Lu_3,Ls_3),
+  resolution(Lie_3,Lpt_3,Li_3,Lu_3,Ls_3,Abr),
+  %% ==> false.
+
+  tri_Abox([(michelAnge, personne)],Lie_4,Lpt_4,Li_4,Lu_4,Ls_4),
+  complete_some([],Lpt_4,Li_4,Lu_4,Ls_4,Abr),
+  %% ==> false.
+  compteur(1),
+  tri_Abox([(michelAnge,some(aCree,sculpture))],Lie_5,Lpt_5,Li_5,Lu_5,Ls_5),
+  complete_some(Lie_5,Lpt_5,Li_5,Lu_5,Ls_5,Abr),
+  %% ==>
+
+  tri_Abox([(michelAnge, personne)],Lie_6,Lpt_6,Li_6,Lu_6,Ls_6),
+  transformation_and(Lie_6,Lpt_6,[],Lu_6,Ls_6,Abr),
+  %% ==> false.
+  tri_Abox([(michelAnge,and(sculpture,objet))],Lie_7,Lpt_7,Li_7,Lu_7,Ls_7),
+  transformation_and(Lie_7,Lpt_7,Li_7,Lu_7,Ls_7,Abr),
+  %% ==>
+
+  tri_Abox([(michelAnge, personne)],Lie_8,Lpt_8,Li_8,Lu_8,Ls_8),
+  deduction_all(Lie_8,[],Li_8,Lu_8,Ls_8,Abr),
+  %% ==> false.
+  tri_Abox([(michelAnge,some(aCree,sculpture))],Lie_9,Lpt_9,Li_9,Lu_9,Ls_9),
+  deduction_all(Lie_9,Lpt_9,Li_9,Lu_9,Ls_9,Abr),
+  %% ==>
+
+  tri_Abox([(michelAnge, personne)],Lie_10,Lpt_10,Li_10,Lu_10,Ls_10),
+  transformation_or(Lie_10,Lpt_10,Li_10,[],Ls_10,Abr),
+  %% ==> false.
+  tri_Abox([(michelAnge,or(sculpture,objet))],Lie_11,Lpt_11,Li_11,Lu_11,Ls_11),
+  transformation_or(Lie_11,Lpt_11,Li_11,Lu_11,Ls_11,Abr),
+  %% ==>
+
+  %% evolue((I,D),Lie,Lpt,Li,Lu,Ls,Lie2,Lpt2,Li2,Lu2,Ls2),
+  %% ==>
+
+  %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2),
+  %% ==>
+
+  write("End testing").
