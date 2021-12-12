@@ -41,8 +41,11 @@ instR(vinci, joconde, aCree).
 
 %% Lance les 3 etapes du projet avec les bons arguments
 programme :- 
+  write("=========================================Premiere etape========================================="), nl,
   premiere_etape(Tbox,Abi,Abr),
+  write("=========================================Deuxieme etape========================================="), nl,
   deuxieme_etape(Abi,Abe,Tbox),
+  write("=========================================Troisieme etape========================================="), nl,
   troisieme_etape(Abe,Abr).
 
  %% La premiere etape consiste a creer la TBox, l'Abi et l'Abr
@@ -59,8 +62,10 @@ deuxieme_etape(Abi,Abi1,Tbox) :-
 %% La troisieme etape fait un tri dans la Abox et lance la resolution
 troisieme_etape(Abi,Abr) :-
   tri_Abox(Abi,Lie,Lpt,Li,Lu,Ls),
+  nl,write("Visualisation Abox :"),
+  affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,Abr,[],[],[],[],[],[]),
   resolution(Lie,Lpt,Li,Lu,Ls,Abr),
-  nl, write('Resolution effectue').
+  nl, write('==> Resolution effectue <==').
 
 %% =================== Fonctions utiles pour la premiere etape =================== %%
 
@@ -105,7 +110,7 @@ acquisition_prop_type1(Abi,Abi1,Tbox) :-
   nl, write('Entrer l\'instance :'),
   nl, read(I), testinstance(I),
   nl, write('Entrer le concept :'),
-  nl, read(C), testconcept(C),
+  nl, read(C), nl, testconcept(C),
   remplace(C,CC),
   nnf(not(CC),NCC),
   Abi1 = [(I,NCC)|Abi].
@@ -320,9 +325,12 @@ resolution(Lie,Lpt,Li,Lu,Ls,Abr):-
 %% liste Ls
 checkclash([(I,C)|Ls]) :-
   nnf(not(C),NC),
-  member((I,NC),Ls).
+  member((I,NC),Ls),
+  write("!!!!!!!! Clash sur "),
+  write(I), write(" !!!!!!!!"), nl.
 checkclash([_|Ls]) :- 
   checkclash(Ls).
+
 
 %% Cette fonction est appele a chaque modification de liste pendant
 %% la resolution
@@ -342,18 +350,22 @@ complete_some([(A,some(R,C))|Lie],Lpt,Li,Lu,Ls,Abr) :-
   Abr1 = Abr,
   evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
   Abr2 = [(A,B,R)|Abr],
+  write("=========================================Application du some========================================="), nl,
   affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,Abr1,Ls1,Lie1,Lpt1,Li1,Lu1,Abr2),
-  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,[(A,B,R)|Abr]).
+  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,[(A,B,R)|Abr]),
+  write("=========================================Fin du some========================================="), nl.
 
 %% Regle et
 transformation_and(Lie,Lpt,[],Lu,Ls,Abr):-
   deduction_all(Lie,Lpt,[],Lu,Ls,Abr).
 transformation_and(Lie,Lpt,[(I,and(A,B))|Li],Lu,Ls,Abr):-
   evolue((I,A),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
-  affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls1,Lie1,Lpt1,Li1,Lu1,[]),
   evolue((I,B),Lie1,Lpt1,Li1,Lu1,Ls1,Lie2,Lpt2,Li2,Lu2,Ls2),
-  affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,[],Ls2,Lie2,Lpt2,Li2,Lu2,[]),
-  resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).
+  write("=========================================Application du and========================================="), nl,
+  affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls2,Lie2,Lpt2,Li2,Lu2,[]),
+  resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr),
+  write("=========================================Fin du and========================================="), nl.
+
 
 %% Regle quelquesoit
 deduction_all(Lie,[],Li,Lu,Ls,Abr):-
@@ -361,41 +373,50 @@ deduction_all(Lie,[],Li,Lu,Ls,Abr):-
 deduction_all(Lie,[(I,all(R,C))|Lpt],Li,Lu,Ls,Abr):-
   member((I,B,R),Abr),
   evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+  write("=========================================Application du all========================================="), nl,
   affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls1,Lie1,Lpt1,Li1,Lu1,[]),
-  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr).
+  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr),
+  write("=========================================Fin du all========================================="), nl.
+
 
 %% Regle ou
 transformation_or(Lie,Lpt,Li,[(I,or(C,D))|Lu],Ls,Abr):- 
   evolue((I,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+  write("=========================================Application du or========================================="), nl,
+  write("-----------------------------------------Noeud 1 du or-----------------------------------------"), nl, nl,
   affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls1,Lie1,Lpt1,Li1,Lu1,[]),
   evolue((I,D),Lie,Lpt,Li,Lu,Ls,Lie2,Lpt2,Li2,Lu2,Ls2),
+  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr),
+  write("-----------------------------------------Noeud 2 du or-----------------------------------------"), nl, nl,
   affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,[],Ls2,Lie2,Lpt2,Li2,Lu2,[]),
   print_diff(Ls2,Ls1),
-  resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr),
-  resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr).
+  resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr),
+  write("=========================================Fin du or========================================="), nl.
 
 %% =================== Partie affichage =================== %%
 
 %% Affiche l'evolution des qu'il y a eu une modification dans une des listes
 affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2):-
-  nl,write("Difference Ls :"),
+  nl,write(" --> Ls :"),
   print_diff(Ls2,Ls1),
-  nl,write("Difference Lie :"),
+  nl,write(" --> Lie :"),
   print_diff(Lie2,Lie1),
-  nl,write("Difference Lpt :"),
+  nl,write(" --> Lpt :"),
   print_diff(Lpt2,Lpt1),
-  nl,write("Difference Li :"),
+  nl,write(" --> Li :"),
   print_diff(Li2,Li1),
-  nl,write("Difference Lu :"),
+  nl,write(" --> Lu :"),
   print_diff(Lu2,Lu1),
-  nl,write("Difference Abr :"),
-  print_diff(Abr2,Abr1).
+  nl,write(" --> Abr :"),
+  print_diff(Abr2,Abr1),
+  nl,nl,nl.
 
 %% Trouve une difference dans les listes et appelle la traduction prefixe - infixe
 print_diff([],[]).
+print_diff([],L2):-
+  trad_infix(L2).
 print_diff(L1,L2):-
   diff_list(L1,L2,R),
-  nl,
   trad_infix(R).
 
 %% Retourne les elements differents entre deux listes
@@ -407,48 +428,48 @@ diff_list(L1,L2,R) :-
 trad_infix([]).
 trad_infix([(I,not(A))|LS]):-
   write(I), 
-  write(":no("),
+  write(":¬("),
   trad_infix(A),
   write(")").
 trad_infix(not(A)):-
-  write("no("),
+  write("¬("),
   trad_infix(A),
   write(")").
 trad_infix([(I,and(A,B))|LS]):-
   write(I), 
   write(":("),
   trad_infix(A),
-  write(" et "),
+  write(" ⊓ "),
   trad_infix(B),
   write(")").
 trad_infix(and(A,B)):-
   write("("),
   trad_infix(A),
-  write(" et "),
+  write(" ⊓ "),
   trad_infix(B),
   write(")").
 trad_infix([(I,all(R,C))|LS]):-
   write(I), 
-  write(":qq("),
+  write(":∀("),
   trad_infix(R),
   write("."),
   trad_infix(C),
   write(")").
 trad_infix(all(R,C)):-
-  write("qq("),
+  write("∀("),
   trad_infix(R),
   write("."),
   trad_infix(C),
   write(")").
 trad_infix([(I,some(R,C))|LS]):-
   write(I), 
-  write(":ie("),
+  write(":∃("),
   trad_infix(R),
   write("."),
   trad_infix(C),
   write(")").
 trad_infix(some(R,C)):-
-  write("ie("),
+  write("∃("),
   trad_infix(R),
   write("."),
   trad_infix(C),
@@ -457,13 +478,13 @@ trad_infix([(I,or(A,B))|LS]):-
   write(I), 
   write(":("),
   trad_infix(A),
-  write(" ou "),
+  write(" ⊔ "),
   trad_infix((B)),
   write(")").
 trad_infix(or(A,B)):-
   write("("),
   trad_infix(A),
-  write(" ou "),
+  write(" ⊔ "),
   trad_infix((B)),
   write(")").
 trad_infix((I)):-
