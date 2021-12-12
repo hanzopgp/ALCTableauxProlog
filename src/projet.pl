@@ -378,16 +378,18 @@ transformation_or(Lie,Lpt,Li,[(I,or(C,D))|Lu],Ls,Abr):-
 
 %% Affiche l'evolution des qu'il y a eu une modification dans une des listes
 affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2):-
-  nl,write("Difference Ls"),
+  nl,write("Difference Ls :"),
   print_diff(Ls2,Ls1),
-  nl,write("Difference Lie"),
+  nl,write("Difference Lie :"),
   print_diff(Lie2,Lie1),
-  nl,write("Difference Lpt"),
+  nl,write("Difference Lpt :"),
   print_diff(Lpt2,Lpt1),
-  nl,write("Difference Li"),
+  nl,write("Difference Li :"),
   print_diff(Li2,Li1),
-  nl,write("Difference Lu"),
-  print_diff(Lu2,Lu1).
+  nl,write("Difference Lu :"),
+  print_diff(Lu2,Lu1),
+  nl,write("Difference Abr :"),
+  print_diff(Abr2,Abr1).
 
 %% Trouve une difference dans les listes et appelle la traduction prefixe - infixe
 print_diff([],[]).
