@@ -555,19 +555,19 @@ testing :-
   %% transformation_or(Lie_11,Lpt_11,Li_11,Lu_11,Ls_11,Abr),
   %% ==>
 
-  tri_Abox([(david,and(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
-  write(Lie), nl,
-  write(Lpt), nl,
-  write(Li), nl,
-  write(Lu), nl,
-  write(Ls), nl,
-  evolue((I,and(A,B)),  Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
-  write("Evolution"), nl,
-  write(Lie), nl,
-  write(Lpt), nl,
-  write(Li), nl,
-  write(Lu), nl,
-  write(Ls), nl, nl, nl,
+  %% tri_Abox([(david,and(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl,
+  %% evolue((I,and(A,B)),  Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
+  %% write("Evolution"), nl,
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl, nl, nl,
   %% ==> []
   %% ==> []
   %% ==> [(david,and(aCree,sculpture))]
@@ -578,19 +578,19 @@ testing :-
   %% ==> []
   %% ==> []
   %% ==> [(david,and(aCree,sculpture))]
-  tri_Abox([(david,all(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
-  write(Lie), nl,
-  write(Lpt), nl,
-  write(Li), nl,
-  write(Lu), nl,
-  write(Ls), nl,
-  evolue((I,all(R,C)),  Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
-  write("Evolution"), nl,
-  write(Lie), nl,
-  write(Lpt), nl,
-  write(Li), nl,
-  write(Lu), nl,
-  write(Ls), nl, nl, nl,
+  %% tri_Abox([(david,all(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl,
+  %% evolue((I,all(R,C)),  Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
+  %% write("Evolution"), nl,
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl, nl, nl,
   %% ==> []
   %% ==> [(david,all(aCree,sculpture))]
   %% ==> []
