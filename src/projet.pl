@@ -492,10 +492,10 @@ trad_infix((I)):-
 
 %% =================== Partie test =================== %%
 
-%% testing :- 
-  %% write("Start testing"), nl,
+testing :- 
+  write("Start testing"), nl,
 
-  %% premiere_etape(Tbox,Abi,Abr),
+  premiere_etape(Tbox,Abi,Abr),
   %% deuxieme_etape(Abi,Ab1,Tbox),
   %% erreur.     MichelAnge. personne.   ==> Reponse incorrecte.
   %% MichelAnge. MichelAnge. personne.   ==> Reponse incorrecte.
@@ -555,10 +555,118 @@ trad_infix((I)):-
   %% transformation_or(Lie_11,Lpt_11,Li_11,Lu_11,Ls_11,Abr),
   %% ==>
 
-  %% evolue((I,D),Lie,Lpt,Li,Lu,Ls,Lie2,Lpt2,Li2,Lu2,Ls2),
-  %% ==>
+  %% tri_Abox([(david,and(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl,
+  %% evolue((I,and(A,B)),  Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
+  %% write("Evolution"), nl,
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl, nl, nl,
+  %% ==> []
+  %% ==> []
+  %% ==> [(david,and(aCree,sculpture))]
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> [(david,and(aCree,sculpture))]
+  %% tri_Abox([(david,all(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl,
+  %% evolue((I,all(R,C)),  Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
+  %% write("Evolution"), nl,
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl, nl, nl,
+  %% ==> []
+  %% ==> [(david,all(aCree,sculpture))]
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> [(david,all(aCree,sculpture))]
+  %% tri_Abox([(david,some(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl,
+  %% evolue((I,some(R,C)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
+  %% write("Evolution"), nl,
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl, nl, nl,
+  %% ==> [(david,some(aCree,sculpture))]
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> [(david,some(aCree,sculpture))]
+  %% tri_Abox([(david,some(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl,
+  %% evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
+  %% write("Evolution"), nl,
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl, nl, nl,
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> [(david,or(aCree,sculpture))]
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> [(david,or(aCree,sculpture))]
+  tri_Abox([(sculpture)],Lie,Lpt,Li,Lu,Ls),
+  write(Lie), nl,
+  write(Lpt), nl,
+  write(Li), nl,
+  write(Lu), nl,
+  write(Ls), nl,
+  evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
+  write("Evolution"), nl,
+  write(Lie), nl,
+  write(Lpt), nl,
+  write(Li), nl,
+  write(Lu), nl,
+  write(Ls), nl, nl, nl,
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> []
+  %% ==> [sculpture]
 
   %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2),
   %% ==>
 
-  %% write("End testing").
+  write("End testing").
