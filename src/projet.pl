@@ -555,19 +555,19 @@ testing :-
   %% transformation_or(Lie_11,Lpt_11,Li_11,Lu_11,Ls_11,Abr),
   %% ==>
 
-  %% tri_Abox([(david,and(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
-  %% write(Lie), nl,
-  %% write(Lpt), nl,
-  %% write(Li), nl,
-  %% write(Lu), nl,
-  %% write(Ls), nl,
-  %% evolue((I,and(A,B)),  Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
-  %% write("Evolution"), nl,
-  %% write(Lie), nl,
-  %% write(Lpt), nl,
-  %% write(Li), nl,
-  %% write(Lu), nl,
-  %% write(Ls), nl, nl, nl,
+  tri_Abox([(david,and(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
+  write(Lie), nl,
+  write(Lpt), nl,
+  write(Li), nl,
+  write(Lu), nl,
+  write(Ls), nl,
+  evolue((I,and(A,B)),  Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
+  write("Evolution"), nl,
+  write(Lie), nl,
+  write(Lpt), nl,
+  write(Li), nl,
+  write(Lu), nl,
+  write(Ls), nl, nl, nl,
   %% ==> []
   %% ==> []
   %% ==> [(david,and(aCree,sculpture))]
@@ -578,19 +578,19 @@ testing :-
   %% ==> []
   %% ==> []
   %% ==> [(david,and(aCree,sculpture))]
-  %% tri_Abox([(david,all(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
-  %% write(Lie), nl,
-  %% write(Lpt), nl,
-  %% write(Li), nl,
-  %% write(Lu), nl,
-  %% write(Ls), nl,
-  %% evolue((I,all(R,C)),  Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
-  %% write("Evolution"), nl,
-  %% write(Lie), nl,
-  %% write(Lpt), nl,
-  %% write(Li), nl,
-  %% write(Lu), nl,
-  %% write(Ls), nl, nl, nl,
+  tri_Abox([(david,all(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
+  write(Lie), nl,
+  write(Lpt), nl,
+  write(Li), nl,
+  write(Lu), nl,
+  write(Ls), nl,
+  evolue((I,all(R,C)),  Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
+  write("Evolution"), nl,
+  write(Lie), nl,
+  write(Lpt), nl,
+  write(Li), nl,
+  write(Lu), nl,
+  write(Ls), nl, nl, nl,
   %% ==> []
   %% ==> [(david,all(aCree,sculpture))]
   %% ==> []
@@ -647,26 +647,69 @@ testing :-
   %% ==> []
   %% ==> []
   %% ==> [(david,or(aCree,sculpture))]
-  tri_Abox([(sculpture)],Lie,Lpt,Li,Lu,Ls),
-  write(Lie), nl,
-  write(Lpt), nl,
-  write(Li), nl,
-  write(Lu), nl,
-  write(Ls), nl,
-  evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
-  write("Evolution"), nl,
-  write(Lie), nl,
-  write(Lpt), nl,
-  write(Li), nl,
-  write(Lu), nl,
-  write(Ls), nl, nl, nl,
+  %% tri_Abox([(sculpture)],Lie,Lpt,Li,Lu,Ls),
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl,
+  %% evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls),
+  %% write("Evolution"), nl,
+  %% write(Lie), nl,
+  %% write(Lpt), nl,
+  %% write(Li), nl,
+  %% write(Lu), nl,
+  %% write(Ls), nl, nl, nl,
   %% ==> []
   %% ==> []
   %% ==> []
   %% ==> []
   %% ==> [sculpture]
 
+  %% tri_Abox([(michelAnge, personne), (david,some(aCree,sculpture)), (david,all(aCree,sculpture)), (david,or(aCree,sculpture)), (david,and(aCree,sculpture))],Lie1,Lpt1,Li1,Lu1,Ls1),
+  %% tri_Abox([(michelAnge, personne), (michelAnge, sculpture), (david,some(aCree,sculpture)), (david,all(aCree,sculpture)), (david,or(aCree,sculpture)), (david,and(aCree,sculpture))],Lie2,Lpt2,Li2,Lu2,Ls2),
   %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2),
-  %% ==>
+  %% ==> --> Ls :[(michelAnge,sculpture)]
+  %% ==> --> Lie :
+  %% ==> --> Lpt :
+  %% ==> --> Li :
+  %% ==> --> Lu :
+  %% ==> --> Abr :
+  %% tri_Abox([(michelAnge, personne), (david,some(aCree,sculpture)), (david,all(aCree,sculpture)), (david,or(aCree,sculpture)), (david,and(aCree,sculpture))],Lie1,Lpt1,Li1,Lu1,Ls1),
+  %% tri_Abox([(michelAnge, personne), (david,some(aCree,sculpture)), (michelAnge,some(aCree,objet)), (david,all(aCree,sculpture)), (david,or(aCree,sculpture)), (david,and(aCree,sculpture))],Lie2,Lpt2,Li2,Lu2,Ls2),
+  %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2),
+  %% ==> --> Ls :
+  %% ==> --> Lie : michelAnge:ie(aCree.objet)
+  %% ==> --> Lpt :
+  %% ==> --> Li :
+  %% ==> --> Lu :
+  %% ==> --> Abr :
+  %% tri_Abox([(michelAnge, personne), (david,some(aCree,sculpture)), (david,all(aCree,sculpture)), (david,or(aCree,sculpture)), (david,and(aCree,sculpture))],Lie1,Lpt1,Li1,Lu1,Ls1),
+  %% tri_Abox([(michelAnge, personne), (david,some(aCree,sculpture)), (david,all(aCree,sculpture)), (michelAnge,all(aCree,objet)), (david,or(aCree,sculpture)), (david,and(aCree,sculpture))],Lie2,Lpt2,Li2,Lu2,Ls2),
+  %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2),
+  %% ==> --> Ls :
+  %% ==> --> Lie :
+  %% ==> --> Lpt : michelAnge:qq(aCree.objet)
+  %% ==> --> Li :
+  %% ==> --> Lu :
+  %% ==> --> Abr :
+  %% tri_Abox([(michelAnge, personne), (david,some(aCree,sculpture)), (david,all(aCree,sculpture)), (david,or(aCree,sculpture)), (david,and(aCree,sculpture))],Lie1,Lpt1,Li1,Lu1,Ls1),
+  %% tri_Abox([(michelAnge, personne), (david,some(aCree,sculpture)), (david,all(aCree,sculpture)), (david,or(aCree,sculpture)), (david,or(sculpture,objet)), (david,and(aCree,sculpture))],Lie2,Lpt2,Li2,Lu2,Ls2),
+  %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2),
+  %% ==> --> Ls :
+  %% ==> --> Lie :
+  %% ==> --> Lpt :
+  %% ==> --> Li :
+  %% ==> --> Lu : david:(sculpture ou objet)
+  %% ==> --> Abr :
+  %% tri_Abox([(michelAnge, personne), (david,some(aCree,sculpture)), (david,all(aCree,sculpture)), (david,or(aCree,sculpture)), (david,and(aCree,sculpture))],Lie1,Lpt1,Li1,Lu1,Ls1),
+  %% tri_Abox([(michelAnge, personne), (david,some(aCree,sculpture)), (david,all(aCree,sculpture)), (david,or(aCree,sculpture)), (david,and(sculpture,sculpture)), (david,and(aCree,objet))],Lie2,Lpt2,Li2,Lu2,Ls2),
+  %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,Abr1,Ls2,Lie2,Lpt2,Li2,Lu2,Abr2),
+  %% ==> --> Ls :
+  %% ==> --> Lie :
+  %% ==> --> Lpt :
+  %% ==> --> Li : david:(sculpture et objet))
+  %% ==> --> Lu :
+  %% ==> --> Abr :
 
   write("End testing").
