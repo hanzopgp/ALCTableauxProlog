@@ -355,6 +355,18 @@ complete_some([(A,some(R,C))|Lie],Lpt,Li,Lu,Ls,Abr) :-
   resolution(Lie1,Lpt1,Li1,Lu1,Ls1,[(A,B,R)|Abr]),
   write("=========================================Fin du some========================================="), nl.
 
+%% Fonction a decommenter pour les tests 
+%% complete_some([],Lpt,Li,Lu,Ls,Abr):-
+%%   transformation_and([],Lpt,Li,Lu,Ls,Abr).
+%% complete_some([(A,some(R,C))|Lie],Lpt,Li,Lu,Ls,Abr) :-
+%%   genere(B),
+%%   Abr1 = Abr,
+%%   evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+%%   Abr2 = [(A,B,R)|Abr],
+%%   write("=========================================Application du some========================================="), nl,
+%%   affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,Abr1,Ls1,Lie1,Lpt1,Li1,Lu1,Abr2),
+%%   write("=========================================Fin du some========================================="), nl.
+
 %% Regle et
 transformation_and(Lie,Lpt,[],Lu,Ls,Abr):-
   deduction_all(Lie,Lpt,[],Lu,Ls,Abr).
@@ -366,6 +378,15 @@ transformation_and(Lie,Lpt,[(I,and(A,B))|Li],Lu,Ls,Abr):-
   resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr),
   write("=========================================Fin du and========================================="), nl.
 
+%% Fonction a decommenter pour les tests 
+%% transformation_and(Lie,Lpt,[],Lu,Ls,Abr):-
+%%   deduction_all(Lie,Lpt,[],Lu,Ls,Abr).
+%% transformation_and(Lie,Lpt,[(I,and(A,B))|Li],Lu,Ls,Abr):-
+%%   evolue((I,A),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+%%   evolue((I,B),Lie1,Lpt1,Li1,Lu1,Ls1,Lie2,Lpt2,Li2,Lu2,Ls2),
+%%   write("=========================================Application du and========================================="), nl,
+%%   affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls2,Lie2,Lpt2,Li2,Lu2,[]),
+  %% write("=========================================Fin du and========================================="), nl.
 
 %% Regle quelquesoit
 deduction_all(Lie,[],Li,Lu,Ls,Abr):-
@@ -378,6 +399,15 @@ deduction_all(Lie,[(I,all(R,C))|Lpt],Li,Lu,Ls,Abr):-
   resolution(Lie1,Lpt1,Li1,Lu1,Ls1,Abr),
   write("=========================================Fin du all========================================="), nl.
 
+%% Fonction a decommenter pour les tests 
+%% deduction_all(Lie,[],Li,Lu,Ls,Abr):-
+%%   transformation_or(Lie,[],Li,Lu,Ls,Abr).
+%% deduction_all(Lie,[(I,all(R,C))|Lpt],Li,Lu,Ls,Abr):-
+%%   member((I,B,R),Abr),
+%%   evolue((B,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+%%   write("=========================================Application du all========================================="), nl,
+%%   affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls1,Lie1,Lpt1,Li1,Lu1,[]),
+%%   write("=========================================Fin du all========================================="), nl.
 
 %% Regle ou
 transformation_or(Lie,Lpt,Li,[(I,or(C,D))|Lu],Ls,Abr):- 
@@ -392,6 +422,18 @@ transformation_or(Lie,Lpt,Li,[(I,or(C,D))|Lu],Ls,Abr):-
   print_diff(Ls2,Ls1),
   resolution(Lie2,Lpt2,Li2,Lu2,Ls2,Abr),
   write("=========================================Fin du or========================================="), nl.
+
+%% Fonction a decommenter pour les tests 
+%% transformation_or(Lie,Lpt,Li,[(I,or(C,D))|Lu],Ls,Abr):- 
+  %% evolue((I,C),Lie,Lpt,Li,Lu,Ls,Lie1,Lpt1,Li1,Lu1,Ls1),
+  %% write("=========================================Application du or========================================="), nl,
+  %% write("-----------------------------------------Noeud 1 du or-----------------------------------------"), nl, nl,
+  %% affiche_evolution_Abox(Ls,Lie,Lpt,Li,Lu,[],Ls1,Lie1,Lpt1,Li1,Lu1,[]),
+  %% evolue((I,D),Lie,Lpt,Li,Lu,Ls,Lie2,Lpt2,Li2,Lu2,Ls2),
+  %% write("-----------------------------------------Noeud 2 du or-----------------------------------------"), nl, nl,
+  %% affiche_evolution_Abox(Ls1,Lie1,Lpt1,Li1,Lu1,[],Ls2,Lie2,Lpt2,Li2,Lu2,[]),
+  %% print_diff(Ls2,Ls1),
+  %% write("=========================================Fin du or========================================="), nl.
 
 %% =================== Partie affichage =================== %%
 
@@ -526,34 +568,62 @@ testing :-
   %% resolution(Lie_3,Lpt_3,Li_3,Lu_3,Ls_3,Abr),
   %% ==> false.
 
+  compteur(1),
   %% tri_Abox([(michelAnge, personne)],Lie_4,Lpt_4,Li_4,Lu_4,Ls_4),
   %% complete_some([],Lpt_4,Li_4,Lu_4,Ls_4,Abr),
   %% ==> false.
-  %% compteur(1),
   %% tri_Abox([(michelAnge,some(aCree,sculpture))],Lie_5,Lpt_5,Li_5,Lu_5,Ls_5),
   %% complete_some(Lie_5,Lpt_5,Li_5,Lu_5,Ls_5,Abr),
-  %% ==>
+  %% ==> --> Ls :[(inst1,sculpture)]
+  %% ==> --> Lie :
+  %% ==> --> Lpt :
+  %% ==> --> Li :
+  %% ==> --> Lu :
+  %% ==> --> Abr :[(michelAnge,inst1,aCree)]
 
   %% tri_Abox([(michelAnge, personne)],Lie_6,Lpt_6,Li_6,Lu_6,Ls_6),
   %% transformation_and(Lie_6,Lpt_6,[],Lu_6,Ls_6,Abr),
   %% ==> false.
   %% tri_Abox([(michelAnge,and(sculpture,objet))],Lie_7,Lpt_7,Li_7,Lu_7,Ls_7),
   %% transformation_and(Lie_7,Lpt_7,Li_7,Lu_7,Ls_7,Abr),
-  %% ==>
+  %% ==> --> Ls :[(michelAnge,objet),(michelAnge,sculpture)]
+  %% ==> --> Lie :
+  %% ==> --> Lpt :
+  %% ==> --> Li :
+  %% ==> --> Lu :
+  %% ==> --> Abr :
 
   %% tri_Abox([(michelAnge, personne)],Lie_8,Lpt_8,Li_8,Lu_8,Ls_8),
   %% deduction_all(Lie_8,[],Li_8,Lu_8,Ls_8,Abr),
   %% ==> false.
-  %% tri_Abox([(michelAnge,some(aCree,sculpture))],Lie_9,Lpt_9,Li_9,Lu_9,Ls_9),
+  %% tri_Abox([(michelAnge,all(aCree,sculpture))],Lie_9,Lpt_9,Li_9,Lu_9,Ls_9),
   %% deduction_all(Lie_9,Lpt_9,Li_9,Lu_9,Ls_9,Abr),
-  %% ==>
+  %% ==> --> Ls :[(david,sculpture)]
+  %% ==> --> Lie :
+  %% ==> --> Lpt :
+  %% ==> --> Li :
+  %% ==> --> Lu :
+  %% ==> --> Abr :
 
   %% tri_Abox([(michelAnge, personne)],Lie_10,Lpt_10,Li_10,Lu_10,Ls_10),
   %% transformation_or(Lie_10,Lpt_10,Li_10,[],Ls_10,Abr),
   %% ==> false.
   %% tri_Abox([(michelAnge,or(sculpture,objet))],Lie_11,Lpt_11,Li_11,Lu_11,Ls_11),
   %% transformation_or(Lie_11,Lpt_11,Li_11,Lu_11,Ls_11,Abr),
-  %% ==>
+  %% ==> -----------------------------------------Noeud 1 du or-----------------------------------------
+  %% ==> --> Ls :[(michelAnge,sculpture)]
+  %% ==> --> Lie :
+  %% ==> --> Lpt :
+  %% ==> --> Li :
+  %% ==> --> Lu :
+  %% ==> --> Abr :
+  %% ==> -----------------------------------------Noeud 2 du or-----------------------------------------
+  %% ==> --> Ls :[(michelAnge,objet)]
+  %% ==> --> Lie :
+  %% ==> --> Lpt :
+  %% ==> --> Li :
+  %% ==> --> Lu :
+  %% ==> --> Abr :
 
   %% tri_Abox([(david,and(aCree,sculpture))],Lie,Lpt,Li,Lu,Ls),
   %% write(Lie), nl,
